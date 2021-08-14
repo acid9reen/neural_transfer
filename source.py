@@ -20,7 +20,7 @@ IMAGE_SIZE = 512 if torch.cuda.is_available() else 128
 
 class ContentLoss(nn.Module):
     def __init__(self, target):
-        super(ContentLoss, self).__init__()
+        super().__init__()
         self.target = target.detach()
 
     def forward(self, input):
@@ -39,7 +39,7 @@ def gram_matrix(input):
 
 class StyleLoss(nn.Module):
     def __init__(self, target_feature):
-        super(StyleLoss, self).__init__()
+        super().__init__()
         self.target = gram_matrix(target_feature).detach()
 
     def forward(self, input):
@@ -50,8 +50,6 @@ class StyleLoss(nn.Module):
 
 
 def image_loader_init(loader):
-    loader = loader
-
     def image_loader(image_name):
         image = Image.open(image_name)
         image = loader(image).unsqueeze(0)
@@ -62,8 +60,6 @@ def image_loader_init(loader):
 
 
 def show_image_init(unloader):
-    unloader = unloader
-
     def show_image(tensor, title=None):
         image = tensor.cpu().clone()
         image = image.squeeze(0)
@@ -95,7 +91,6 @@ def main() -> None:
     ), "we need to import style and content images of the same size"
 
     unloader = transforms.ToPILImage()
-    plt.ion()
 
     show_image = show_image_init(unloader)
 
